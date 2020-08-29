@@ -6,7 +6,7 @@ const preconnectSources = [
   // 'https://www.googleadservices.com',
   // 'https://www.googletagmanager.com',
   // 'https://connect.facebook.net',
-  https://res.cloudinary.com
+  'https://res.cloudinary.com'
 ];
 
 const preconnectTags = preconnectSources.map(createPreconnectTag).join('\n');
