@@ -21,14 +21,15 @@ const productCard = {
   marginBottom: '10px',
   boxShadow: '0 1px 6px 0 rgb(255 255 255 / 0.32)',
   borderRadius: '8px',
-	textDecoration: 'none',
-	color: '#fff',
-	cursor: 'pointer',
+  textDecoration: 'none',
+  color: '#fff',
+  cursor: 'pointer',
 };
 
 const productImg = {
   width: '100%',
   objectFit: 'cover',
+  height: '138px',
   borderRadius: '8px 8px 0 0',
 };
 
@@ -42,8 +43,8 @@ const productName = {
 };
 
 const productPrice = {
-	color: '#ff5722',
-	fontSize: '14px',
+  color: '#ff5722',
+  fontSize: '14px',
   marginTop: '5px',
 };
 
