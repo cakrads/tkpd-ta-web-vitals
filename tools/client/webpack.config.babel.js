@@ -53,7 +53,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
-module.exports = function() {
+module.exports = function () {
   const publicPath = isEnvProduction ? paths.servedPath : (isEnvDevelopment && config.get('PUBLIC_PATH')) || '/';
   // Some apps do not use client-side routing with pushState.
   // For these, "homepage" can be set to "." to enable relative asset paths.
@@ -213,13 +213,13 @@ module.exports = function() {
             parser: safePostCssParser,
             map: shouldUseSourceMap
               ? {
-                  // `inline: false` forces the sourcemap to be output into a
-                  // separate file
-                  inline: false,
-                  // `annotation: true` appends the sourceMappingURL to the end of
-                  // the css file, helping the browser find the sourcemap
-                  annotation: true,
-                }
+                // `inline: false` forces the sourcemap to be output into a
+                // separate file
+                inline: false,
+                // `annotation: true` appends the sourceMappingURL to the end of
+                // the css file, helping the browser find the sourcemap
+                annotation: true,
+              }
               : false,
           },
         }),
@@ -406,6 +406,8 @@ module.exports = function() {
         color: '#61dafb',
       }),
 
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
       new FriendlyErrorsWebpackPlugin(),
       // Generates an `index.html` or `index.client.html` file with the <script> injected.
       new HtmlWebpackPlugin(
@@ -466,13 +468,13 @@ module.exports = function() {
       // See https://github.com/facebook/create-react-app/issues/240
       isEnvDevelopment && new CaseSensitivePathsPlugin(),
       isEnvProduction &&
-        !process.env.SKIP_GENERATE_STATS &&
-        new BundleAnalyzerPlugin({
-          analyzerMode: 'disabled',
-          openAnalyzer: false,
-          generateStatsFile: true,
-          reportFilename: path.resolve(paths.appBuild, './bundle-analyze.html'),
-        }),
+      !process.env.SKIP_GENERATE_STATS &&
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'disabled',
+        openAnalyzer: false,
+        generateStatsFile: true,
+        reportFilename: path.resolve(paths.appBuild, './bundle-analyze.html'),
+      }),
       // If you require a missing module and then `npm install` it, you still have
       // to restart the development server for Webpack to discover it. This plugin
       // makes the discovery automatic so you don't have to restart.
@@ -490,36 +492,36 @@ module.exports = function() {
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the Webpack build.
       isEnvProduction &&
-        new WorkboxWebpackPlugin.InjectManifest({
-          swSrc: 'client/serviceWorker/sw-template.js',
-          swDest: 'service-worker.js',
-          include: [/^vendor.*\.js$/, /^client.*\.js$/],
-        }),
+      new WorkboxWebpackPlugin.InjectManifest({
+        swSrc: 'client/serviceWorker/sw-template.js',
+        swDest: 'service-worker.js',
+        include: [/^vendor.*\.js$/, /^client.*\.js$/],
+      }),
       isEnvProduction && !isStaticHosting && new UpdateSWHTMLPathPlugin(),
       // TypeScript type checking
       useTypeScript &&
-        new ForkTsCheckerWebpackPlugin({
-          typescript: resolve.sync('typescript', {
-            basedir: paths.appNodeModules,
-          }),
-          async: isEnvDevelopment,
-          useTypescriptIncrementalApi: true,
-          checkSyntacticErrors: true,
-          resolveModuleNameModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
-          resolveTypeReferenceDirectiveModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
-          tsconfig: paths.appTsConfig,
-          reportFiles: [
-            '**',
-            '!**/__tests__/**',
-            '!**/?(*.)(spec|test).*',
-            '!**/client/setupProxy.*',
-            '!**/client/setupTests.*',
-          ],
-          watch: paths.appClient,
-          silent: true,
-          // The formatter is invoked directly in WebpackDevServerUtils during development
-          formatter: isEnvProduction ? typescriptFormatter : undefined,
+      new ForkTsCheckerWebpackPlugin({
+        typescript: resolve.sync('typescript', {
+          basedir: paths.appNodeModules,
         }),
+        async: isEnvDevelopment,
+        useTypescriptIncrementalApi: true,
+        checkSyntacticErrors: true,
+        resolveModuleNameModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
+        resolveTypeReferenceDirectiveModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
+        tsconfig: paths.appTsConfig,
+        reportFiles: [
+          '**',
+          '!**/__tests__/**',
+          '!**/?(*.)(spec|test).*',
+          '!**/client/setupProxy.*',
+          '!**/client/setupTests.*',
+        ],
+        watch: paths.appClient,
+        silent: true,
+        // The formatter is invoked directly in WebpackDevServerUtils during development
+        formatter: isEnvProduction ? typescriptFormatter : undefined,
+      }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
