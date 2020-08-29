@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Header from '../../../components/Header';
 import RatingReview from '../../../components/RatingReview';
+import LazyImage from '../../../components/LazyImage';
 import Footer from '../../../components/Footer';
 
 const productWrapper = {
@@ -28,8 +29,7 @@ const productCard = {
 
 const productImg = {
   width: '100%',
-  objectFit: 'cover',
-  height: '138px',
+  height: '130px',
   borderRadius: '8px 8px 0 0',
 };
 
@@ -53,9 +53,11 @@ const { API_URL } = process.env;
 function Home() {
   const { data, loading } = useData(`${API_URL}/products`, {}, { method: 'GET' }, { ssr: true });
 
-  const getResizedImage = (imageUrl) => {
+  const getResizedImage = imageUrl => {
     if (imageUrl) {
-      return `https://res.cloudinary.com/irfan-maulana-tkpd/image/fetch/c_fill,g_auto:face,h_200,fl_force_strip.progressive/f_webp/${encodeURIComponent(imageUrl)}`;
+      return `https://res.cloudinary.com/irfan-maulana-tkpd/image/fetch/c_fill,g_auto:face,h_130,fl_force_strip.progressive/f_webp/${encodeURIComponent(
+        imageUrl,
+      )}`;
     }
     return '';
   };
@@ -68,7 +70,8 @@ function Home() {
           <div className="products" style={productWrapper}>
             {data.data.map(item => (
               <Link className="product" style={productCard} key={item.id} to={`/${item.id}`}>
-                <img className="product__img" style={productImg} src={getResizedImage(item.image)} alt={item.name}></img>
+                <LazyImage style={productImg} height="130px" src={getResizedImage(item.image)} alt={item.name} />
+
                 <div style={productInfo}>
                   <div style={productName}>{item.name}</div>
                   <div style={productPrice}>{item.price}</div>
